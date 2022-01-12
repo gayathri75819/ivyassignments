@@ -36,7 +36,7 @@ def check_all_filled():
             return False
     return True
 app = Flask(__name__)
-#taking names
+
 @app.route('/setPlayer', methods = ['GET', 'POST'])
 def setPlayer():
     global playerData,s
@@ -75,6 +75,7 @@ def letsPlay():
                     if check_empty(row,col):
                         m[row][col]="X"
                         s=s+1
+                        msg = "Data is now filled"
                         if winning_probability():
                             msg=playerData["X"]+" is the winner"
                     else:
@@ -84,10 +85,13 @@ def letsPlay():
                     if check_empty(row,col):
                         m[row][col]="O"
                         s=s+1
+                        msg = "Data is now filled"
                         if winning_probability():
                             msg=playerData["O"]+" is the winner"
                     else:
                         msg="Take another position it is filled"
+                else:
+                    msg = "Same playe can't enter twice"
                 data=m
             
         return jsonify({'data': data,'msg':msg})
@@ -100,6 +104,6 @@ def resetData():
         m=[["","",""],["","",""],["","","_"]]
         return jsonify({'data': playerData})
   
-
 if __name__ == '__main__':
-    app.run(debug=True)
+  
+    app.run(debug = True)
